@@ -1,9 +1,12 @@
 <?php
 
-use App\Http\Controllers\LabelController;
-use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{
+    LabelController,
+    OrderController,
+    DashboardController,
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +24,13 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('labels', LabelController::class);
-    Route::resource('orders', OrderController::class);
+
+    Route::prefix('admin')->group(function () {
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('labels', LabelController::class);
+        Route::resource('orders', OrderController::class);
+    });
+
 });
 
 Auth::routes();

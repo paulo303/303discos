@@ -2,34 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateLabelRequest;
 use App\Models\Label;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LabelController extends Controller
 {
+    private $model;
+
+    public function __construct(Label $label)
+    {
+        $this->model = $label;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $labels = Label::all();
+        $labels = $this->model->getAll($request->search);
 
-        return response()->json($labels);
+        return view('admin.pages.labels.index', [
+            'title' => '303 discos - Selos',
+            'labels' => $labels,
+            'filters' => $request->all(),
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('admin.pages.labels.create', [
+            'title' => '303 discos - Selos',
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreUpdateLabelRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateLabelRequest $request)
     {
-        $label = Label::create($request->all());
+        DB::beginTransaction();
 
-        return response()->json($label, 201);
+        try {
+            $label = $this->model->create($request->all());
+            DB::commit();
+
+            return redirect()->route('labels.index', $label);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
     }
 
     /**
@@ -40,7 +74,18 @@ class LabelController extends Controller
      */
     public function show(Label $label)
     {
-        return response()->json($label);
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Label  $label
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Label $label)
+    {
+        //
     }
 
     /**
@@ -63,8 +108,6 @@ class LabelController extends Controller
      */
     public function destroy(Label $label)
     {
-        $label->delete();
-
-        return response()->json();
+        //
     }
 }

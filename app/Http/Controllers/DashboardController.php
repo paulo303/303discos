@@ -23,9 +23,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $title = '303 discos';
-        return view('dashboard', compact([
-            'title'
-        ]));
+        return view('admin.dashboard', [
+            'title' => 'Dashboard',
+        ]);
     }
 }
