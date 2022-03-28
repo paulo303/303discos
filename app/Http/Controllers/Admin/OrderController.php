@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\UserType;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class UserTypeController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class UserTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\UserType  $userType
+     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(UserType $userType)
+    public function show(Order $order)
     {
         //
     }
@@ -43,10 +44,10 @@ class UserTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\UserType  $userType
+     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UserType $userType)
+    public function update(Request $request, Order $order)
     {
         //
     }
@@ -54,10 +55,10 @@ class UserTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\UserType  $userType
+     * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(UserType $userType)
+    public function destroy(Order $order)
     {
         //
     }

@@ -2,8 +2,6 @@
 
 namespace App;
 
-use Illuminate\Support\Str;
-
 class Helpers
 {
     public static function removeAccents($string) {
@@ -112,8 +110,14 @@ class Helpers
         return $string;
     }
 
+    public static function clean($string) {
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+     }
+
     public static function convertToUrl($string)
     {
-        return Str::kebab(Helpers::removeAccents($string));
+        return Helpers::clean(Helpers::removeAccents(strtolower($string)));
     }
 }

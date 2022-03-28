@@ -14,7 +14,7 @@
         <div class="content-header">
             <div class="text-center">
                 <a href="{{ route('dashboard') }}">
-                    <img src="{{ url('images/logo.png') }}" width="200px" alt="">
+                    <img src="{{ url('images/logo.png') }}" width="250px" alt="">
                 </a>
             </div>
 
@@ -27,6 +27,14 @@
     {{-- Main Content --}}
     <div class="content">
         <div class="{{ config('adminlte.classes_content') ?: $def_container_class }}">
+            @if ($errors->any())
+                @include('admin/includes/alerts/error')
+            @endif
+
+            @if(session()->has('message'))
+                @include('admin/includes/alerts/success')
+            @endif
+
             @yield('content')
         </div>
     </div>

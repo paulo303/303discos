@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Release;
+use App\Models\UserType;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class ReleaseController extends Controller
+class UserTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,10 +32,10 @@ class ReleaseController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Release  $release
+     * @param  \App\Models\UserType  $userType
      * @return \Illuminate\Http\Response
      */
-    public function show(Release $release)
+    public function show(UserType $userType)
     {
         //
     }
@@ -43,10 +44,10 @@ class ReleaseController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Release  $release
+     * @param  \App\Models\UserType  $userType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Release $release)
+    public function update(Request $request, UserType $userType)
     {
         //
     }
@@ -54,10 +55,10 @@ class ReleaseController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Release  $release
+     * @param  \App\Models\UserType  $userType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Release $release)
+    public function destroy(UserType $userType)
     {
         //
     }

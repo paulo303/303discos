@@ -11,7 +11,8 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Criar novo selo</li>
+                    <li class="breadcrumb-item"><a href="{{ route('labels.index') }}">Selos</a></li>
+                    <li class="breadcrumb-item active">Novo selo</li>
                 </ol>
             </div>
         </div>
@@ -21,8 +22,6 @@
 @section('content')
     <form action="{{ route('labels.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="card">
-            @include('admin.pages.labels._partials.form')
-        </div>
+        @include('admin.pages.labels._partials.form')
     </form>
 @stop

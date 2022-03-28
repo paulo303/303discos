@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Label extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'url',
+        'logo',
+    ];
 
     public function releases()
     {
@@ -21,8 +25,15 @@ class Label extends Model
             if ($search) {
                 $query->where('name', 'LIKE', "%{$search}%");
             }
-        })->paginate(10);
+        })
+        ->orderBy('name', 'asc')
+        ->paginate(10);
 
         return $labels;
+    }
+
+    public function findByURL($url)
+    {
+        return $this->where('url', $url)->first();
     }
 }

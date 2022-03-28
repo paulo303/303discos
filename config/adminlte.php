@@ -14,8 +14,8 @@ return [
     |
     */
 
-    'title' => '303 DISCOS',
-    'title_prefix' => '',
+    'title' => '',
+    'title_prefix' => '303 DISCOS - ',
     'title_postfix' => '',
 
     /*

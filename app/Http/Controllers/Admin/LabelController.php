@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Helpers;
 use App\Http\Requests\StoreUpdateLabelRequest;
 use App\Models\Label;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class LabelController extends Controller
 {
@@ -26,7 +28,7 @@ class LabelController extends Controller
         $labels = $this->model->getAll($request->search);
 
         return view('admin.pages.labels.index', [
-            'title' => '303 discos - Selos',
+            'title' => 'Selos',
             'labels' => $labels,
             'filters' => $request->all(),
         ]);
@@ -55,10 +57,17 @@ class LabelController extends Controller
         DB::beginTransaction();
 
         try {
-            $label = $this->model->create($request->all());
+            $data = $request->all();
+            if ($request->logo) {
+                $data['logo'] = $request->logo->storeAs('labels', Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
+            }
+
+            $label = $this->model->create($data);
             DB::commit();
 
-            return redirect()->route('labels.index', $label);
+            $message = "<b>{$label->name}</b> cadastrado com sucesso!";
+
+            return redirect()->route('labels.index')->with('message', $message);
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -69,21 +78,27 @@ class LabelController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Label  $label
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Label $label)
+    public function show($url)
     {
-        //
+        if (!$label = $this->model->findByURL($url))
+            return redirect()->back();
+
+        return view('admin.pages.labels.show', [
+            'title' => $label->name,
+            'label' => $label,
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Label  $label
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Label $label)
+    public function edit($id)
     {
         //
     }
@@ -92,10 +107,10 @@ class LabelController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Label  $label
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Label $label)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -103,10 +118,10 @@ class LabelController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Label  $label
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Label $label)
+    public function destroy($id)
     {
         //
     }

@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
+use App\Models\Release;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
-class UserController extends Controller
+class ReleaseController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-
-        return response()->json($users);
+        //
     }
 
     /**
@@ -27,16 +26,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Release  $release
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(Release $release)
     {
         //
     }
@@ -45,10 +44,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Release  $release
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Release $release)
     {
         //
     }
@@ -56,10 +55,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\Release  $release
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Release $release)
     {
         //
     }

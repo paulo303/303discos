@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{
-    LabelController,
-    OrderController,
+use App\Http\Controllers\Admin\{
     DashboardController,
+    LabelController,
+    ReleaseController,
+    OrderController,
 };
 
 /*
@@ -27,7 +28,9 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('admin')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('users', UserController::class);
         Route::resource('labels', LabelController::class);
+        Route::resource('releases', ReleaseController::class);
         Route::resource('orders', OrderController::class);
     });
 

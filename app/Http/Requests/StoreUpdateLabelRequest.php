@@ -31,11 +31,12 @@ class StoreUpdateLabelRequest extends FormRequest
                 'unique:labels,name,' . $this->url,
             ],
             'url' => [
-                'required',
                 'unique:labels,url,'. $this->url
             ],
             'logo' =>[
                 'nullable',
+                'image',
+                'max:2048'
             ],
         ];
     }
@@ -48,11 +49,13 @@ class StoreUpdateLabelRequest extends FormRequest
     public function messages()
     {
         return [
-            '*.required'    => 'O campo :attribute é obrigatório',
-            'name.min'      => 'O campo :attribute deve ter no mínimo 3 caracteres',
-            'name.max'      => 'O campo :attribute deve ter no máximo 255 caracteres',
-            'name.unique'   => 'O nome do selo já está cadastrado',
-            'url.unique'    => 'A URL já está cadastrada',
+            '*.required'    => 'O campo <strong>:attribute</strong> é obrigatório!',
+            'name.min'      => 'O campo <strong>:attribute</strong> deve ter no mínimo 3 caracteres!',
+            'name.max'      => 'O campo <strong>:attribute</strong> deve ter no máximo 255 caracteres!',
+            'name.unique'   => 'O nome do selo já está cadastrado!',
+            'url.unique'    => 'A <strong>URL</strong> já está cadastrada!',
+            'logo.max'      => 'O tamanho máximo para a logo é de 2mb!',
+            'logo.image'    => 'A <strong>Logo</strong> precisa ser uma imagem!',
         ];
     }
 
