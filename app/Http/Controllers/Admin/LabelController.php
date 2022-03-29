@@ -59,9 +59,12 @@ class LabelController extends Controller
         DB::beginTransaction();
         try {
             $data = $request->all();
-            if ($request->logo)
-                $data['logo'] = $request->logo->move(public_path('images/labels'), Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
-                // $data['logo'] = $request->logo->storeAs('labels', Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
+            $path = 'images/labels';
+
+            if ($request->logo) {
+                $upload = $request->logo->move(public_path($path), Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
+                $data['logo'] = "{$path}/{$upload->getFilename()}";
+            }
 
             $label = $this->model->create($data);
             DB::commit();
