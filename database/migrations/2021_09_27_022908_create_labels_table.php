@@ -16,7 +16,11 @@ class CreateLabelsTable extends Migration
         Schema::create('labels', function (Blueprint $table) {
             $table->id();
             $table->string('name', 50)->unique();
+            $table->string('url')->unique();
+            $table->string('discogs')->nullable();
+            $table->string('logo')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

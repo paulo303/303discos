@@ -2,7 +2,16 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use App\Models\{
+    Label,
+    User
+};
+use App\Observers\{
+    LabelObserver,
+    UserObserver,
+};
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Paginator::useBootstrap();
+
+        // Observers
+        User::observe(UserObserver::class);
+        Label::observe(LabelObserver::class);
     }
 }

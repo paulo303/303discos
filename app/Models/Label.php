@@ -4,30 +4,41 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Label extends Model
 {
-    protected $fillable = ['name'];
+
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'url',
+        'discogs',
+        'logo',
+    ];
 
     public function releases()
     {
         return $this->hasMany(Release::class);
     }
 
-    public function rules()
+    /*** REGRAS DE NEGÓCIO ***/
+    public function getAll(string|null $search = '')
     {
-        return [
-            'name' => 'required|min:3|max:40|unique:labels,name,' . $this->id
-        ];
+        $labels = $this->where(function ($query) use ($search){
+            if ($search) {
+                $query->where('name', 'LIKE', "%{$search}%");
+            }
+        })
+        ->orderBy('name', 'asc')
+        ->paginate(10);
+
+        return $labels;
     }
 
-    public function feedbacks()
+    public function findByURL($url)
     {
-        return [
-            'name.required' => 'O campo NOME é obrigatório!',
-            'name.min' => 'O campo nome deve ter no mínimo 3 caracteres!',
-            'name.max' => 'O campo nome deve ter no máximo 40 caracteres!',
-            'name.unique' => 'O nome do selo já está cadastrado!'
-        ];
+        return $this->where('url', $url)->first();
     }
 }
