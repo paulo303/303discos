@@ -17,8 +17,10 @@ class CreateLabelsTable extends Migration
             $table->id();
             $table->string('name', 50)->unique();
             $table->string('url')->unique();
+            $table->string('discogs')->nullable();
             $table->string('logo')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

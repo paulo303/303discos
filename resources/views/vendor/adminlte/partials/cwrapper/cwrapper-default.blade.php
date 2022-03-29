@@ -27,13 +27,23 @@
     {{-- Main Content --}}
     <div class="content">
         <div class="{{ config('adminlte.classes_content') ?: $def_container_class }}">
-            @if ($errors->any())
+            @if ($errors->any() || session()->has('message_error'))
                 @include('admin/includes/alerts/error')
             @endif
 
-            @if(session()->has('message'))
+            @if(session()->has('message_info'))
+                @include('admin/includes/alerts/info')
+            @endif
+
+            @if(session()->has('message_warning'))
+                @include('admin/includes/alerts/warning')
+            @endif
+
+            @if(session()->has('message_success'))
                 @include('admin/includes/alerts/success')
             @endif
+
+
 
             @yield('content')
         </div>

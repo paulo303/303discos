@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="form-group">
             <label for="name">Nome</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Nome do selo" value="{{ old('name') }}">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Nome do selo" value="{{ $label->name ?? old('name') }}">
             @if ($errors->has('name'))
                 <div class="error">{!! $errors->first('name') !!}</div>
             @endif

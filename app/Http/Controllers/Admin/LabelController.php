@@ -8,6 +8,8 @@ use App\Models\Label;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class LabelController extends Controller
 {
@@ -55,19 +57,17 @@ class LabelController extends Controller
     public function store(StoreUpdateLabelRequest $request)
     {
         DB::beginTransaction();
-
         try {
             $data = $request->all();
-            if ($request->logo) {
-                $data['logo'] = $request->logo->storeAs('labels', Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
-            }
+            if ($request->logo)
+                $data['logo'] = $request->logo->move(public_path('images/labels'), Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
+                // $data['logo'] = $request->logo->storeAs('labels', Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
 
             $label = $this->model->create($data);
             DB::commit();
 
             $message = "<b>{$label->name}</b> cadastrado com sucesso!";
-
-            return redirect()->route('labels.index')->with('message', $message);
+            return redirect()->route('labels.index')->with('message_success', $message);
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -84,7 +84,7 @@ class LabelController extends Controller
     public function show($url)
     {
         if (!$label = $this->model->findByURL($url))
-            return redirect()->back();
+            return redirect()->back()->with('message_error', 'O label não foi encontrado!');
 
         return view('admin.pages.labels.show', [
             'title' => $label->name,
@@ -98,9 +98,15 @@ class LabelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($url)
     {
-        //
+        if (!$label = $this->model->findByURL($url))
+            return redirect()->back()->with('message_warning', 'O label não foi encontrado!');
+
+        return view('admin.pages.labels.edit', [
+            'title' => $label->name,
+            'label' => $label,
+        ]);
     }
 
     /**
@@ -110,9 +116,32 @@ class LabelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $url)
     {
-        //
+        if (!$label = $this->model->findByURL($url))
+            return redirect()->back()->with('message_error', 'O label não foi encontrado!');
+
+        DB::beginTransaction();
+        try {
+            $data = $request->all();
+            if ($request->logo){
+                if ($label->image && Storage::exists($label->image))
+                    Storage::delete($label->image);
+
+                $data['logo'] = $request->logo->move(public_path('images/labels'), Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
+                // $data['logo'] = $request->logo->storeAs('labels', Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
+            }
+
+            $label->update($data);
+            DB::commit();
+
+            $message = "<b>{$label->name}</b> editado com sucesso!";
+            return redirect()->route('labels.index')->with('message_success', $message);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
     }
 
     /**

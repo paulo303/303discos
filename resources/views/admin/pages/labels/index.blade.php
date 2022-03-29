@@ -41,6 +41,7 @@
                     <tr>
                         <th width="200px"></th>
                         <th width="">Nome</th>
+                        <th width="">Discogs</th>
                         <th class="text-center" width="200"></th>
                     </tr>
                 </thead>
@@ -49,8 +50,8 @@
                         <tr>
                             <td style="vertical-align: middle;">
                                 @if ($label->logo)
-                                    <a href="{{ url("storage/{$label->logo}") }}" target="_blank">
-                                        <img src="{{ url("storage/{$label->logo}") }}" alt="{{ $label->name }}" width="100">
+                                    <a href="{{ url("{$label->logo}") }}" target="_blank">
+                                        <img src="{{ url("{$label->logo}") }}" alt="{{ $label->name }}" width="100">
                                     </a>
                                 @else
                                     <img src="{{ url("images/no-image.jpg") }}" alt="{{ $label->name }}" width="100">
@@ -58,6 +59,9 @@
                             </td>
                             <td style="vertical-align: middle;">
                                 {{ $label->name }}
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <a href="{{ $label->discogs }}" target="_blank">{{ $label->discogs }}</a>
                             </td>
                             <td style="vertical-align: middle;" class="text-center">
                                 <a href="{{ route('labels.edit', $label->url) }}" class="btn btn-outline-info">Editar</a>

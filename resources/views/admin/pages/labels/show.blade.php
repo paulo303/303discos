@@ -25,8 +25,8 @@
                 </h1>
                 @if ($label->logo)
                     <p>
-                        <a href="{{ url("storage/{$label->logo}") }}" target="_blank">
-                            <img src="{{ url("storage/{$label->logo}") }}" alt="{{ $label->name }}" width="250">
+                        <a href="{{ url("{$label->logo}") }}" target="_blank">
+                            <img src="{{ url("{$label->logo}") }}" alt="{{ $label->name }}" width="250">
                         </a>
                     </p>
                 @else
