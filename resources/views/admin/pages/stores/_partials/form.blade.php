@@ -2,9 +2,16 @@
     <div class="card-body">
         <div class="form-group">
             <label for="name">Nome</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Nome do Selo" value="{{ $label->name ?? old('name') }}">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Nome da Loja" value="{{ $store->name ?? old('name') }}">
             @if ($errors->has('name'))
                 <div class="error">{!! $errors->first('name') !!}</div>
+            @endif
+        </div>
+        <div class="form-group">
+            <label for="link">Link</label>
+            <input type="text" class="form-control" id="link" name="link" placeholder="Link" value="{{ $store->link ?? old('link') }}">
+            @if ($errors->has('link'))
+                <div class="error">{!! $errors->first('link') !!}</div>
             @endif
         </div>
         <div class="form-group">

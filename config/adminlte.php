@@ -263,6 +263,11 @@ return [
             'text' => 'Busca',
         ],
         [
+            'text'  => 'Lojas',
+            'url'   => 'admin/stores',
+            'icon'  => 'fas fa-store',
+        ],
+        [
             'text'  => 'Selos',
             'url'   => 'admin/labels',
             'icon'  => 'fas fa-record-vinyl',
