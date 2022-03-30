@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\{
     DashboardController,
+    UserController,
     LabelController,
-    ReleaseController,
-    OrderController,
+    StoreController,
 };
 
 /*
@@ -30,8 +30,9 @@ Route::middleware('auth')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('users', UserController::class);
         Route::resource('labels', LabelController::class);
-        Route::resource('releases', ReleaseController::class);
-        Route::resource('orders', OrderController::class);
+        Route::resource('stores', StoreController::class);
+        // Route::resource('releases', ReleaseController::class);
+        // Route::resource('orders', OrderController::class);
     });
 
 });

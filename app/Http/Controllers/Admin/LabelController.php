@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class LabelController extends Controller
 {
-    private $model;
+    private Label $model;
 
     public function __construct(Label $label)
     {
@@ -44,7 +44,7 @@ class LabelController extends Controller
     public function create()
     {
         return view('admin.pages.labels.create', [
-            'title' => '303 discos - Selos',
+            'title' => 'Criar novo Selo',
         ]);
     }
 
@@ -69,7 +69,7 @@ class LabelController extends Controller
             $label = $this->model->create($data);
             DB::commit();
 
-            $message = "<b>{$label->name}</b> cadastrado com sucesso!";
+            $message = "Selo <b>{$label->name}</b> cadastrado com sucesso!";
             return redirect()->route('labels.index')->with('message_success', $message);
 
         } catch (\Throwable $th) {
@@ -87,7 +87,7 @@ class LabelController extends Controller
     public function show($url)
     {
         if (!$label = $this->model->findByURL($url))
-            return redirect()->back()->with('message_error', 'O label não foi encontrado!');
+            return redirect()->back()->with('message_error', 'O selo não foi encontrado!');
 
         return view('admin.pages.labels.show', [
             'title' => $label->name,
@@ -104,10 +104,10 @@ class LabelController extends Controller
     public function edit($url)
     {
         if (!$label = $this->model->findByURL($url))
-            return redirect()->back()->with('message_warning', 'O label não foi encontrado!');
+            return redirect()->back()->with('message_warning', 'O selo não foi encontrado!');
 
         return view('admin.pages.labels.edit', [
-            'title' => $label->name,
+            'title' => "Editando {$label->name}",
             'label' => $label,
         ]);
     }
@@ -122,7 +122,7 @@ class LabelController extends Controller
     public function update(Request $request, $url)
     {
         if (!$label = $this->model->findByURL($url))
-            return redirect()->back()->with('message_error', 'O label não foi encontrado!');
+            return redirect()->back()->with('message_error', 'O selo não foi encontrado!');
 
         DB::beginTransaction();
         try {
@@ -132,13 +132,12 @@ class LabelController extends Controller
                     Storage::delete($label->image);
 
                 $data['logo'] = $request->logo->move(public_path('images/labels'), Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
-                // $data['logo'] = $request->logo->storeAs('labels', Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
             }
 
             $label->update($data);
             DB::commit();
 
-            $message = "<b>{$label->name}</b> editado com sucesso!";
+            $message = "Selo <b>{$label->name}</b> editado com sucesso!";
             return redirect()->route('labels.index')->with('message_success', $message);
 
         } catch (\Throwable $th) {

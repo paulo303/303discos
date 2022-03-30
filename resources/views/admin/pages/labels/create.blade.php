@@ -12,7 +12,7 @@
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('labels.index') }}">Selos</a></li>
-                    <li class="breadcrumb-item active">Novo selo</li>
+                    <li class="breadcrumb-item active">Novo Selo</li>
                 </ol>
             </div>
         </div>
