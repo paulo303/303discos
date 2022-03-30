@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUpdateLabelRequest extends FormRequest
+class StoreUpdateStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,10 +28,10 @@ class StoreUpdateLabelRequest extends FormRequest
                 'required',
                 'min:3',
                 'max:255',
-                'unique:labels,name,' . $this->url,
+                'unique:stores,name,' . $this->id,
             ],
-            'url' => [
-                'unique:labels,url,'. $this->url
+            'link' => [
+                'required',
             ],
             'logo' =>[
                 'nullable',
@@ -52,8 +52,7 @@ class StoreUpdateLabelRequest extends FormRequest
             '*.required'    => 'O campo <strong>:attribute</strong> é obrigatório!',
             'name.min'      => 'O campo <strong>:attribute</strong> deve ter no mínimo 3 caracteres!',
             'name.max'      => 'O campo <strong>:attribute</strong> deve ter no máximo 255 caracteres!',
-            'name.unique'   => 'O <strong>:attribute</strong> do Selo já está cadastrado!',
-            'url.unique'    => 'A <strong>:attribute</strong> já está cadastrada!',
+            'name.unique'   => 'O <strong>:attribute</strong> da Loja já está cadastrado!',
             'logo.max'      => 'O tamanho máximo para a <strong>:attribute</strong> é de 2mb!',
             'logo.image'    => 'A <strong>:attribute</strong> precisa ser uma imagem!',
         ];
@@ -68,7 +67,7 @@ class StoreUpdateLabelRequest extends FormRequest
     {
         return [
             'name'  => 'Nome',
-            'url'   => 'URL',
+            'link'   => 'Link',
             'logo'  => 'Logo',
         ];
     }
