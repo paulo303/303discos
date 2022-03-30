@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdateStoreRequest;
 use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,7 @@ class StoreController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreUpdateStoreRequest $request)
     {
         DB::beginTransaction();
         try {
@@ -75,7 +76,7 @@ class StoreController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(StoreUpdateStoreRequest $request, $id)
     {
         if (!$store = $this->model->find($id))
             return redirect()->back()->with('message_error', 'A loja não foi encontrada!');
