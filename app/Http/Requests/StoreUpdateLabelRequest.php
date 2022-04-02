@@ -23,20 +23,22 @@ class StoreUpdateLabelRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->label->id ?? '';
+
         return [
             'name' => [
                 'required',
                 'min:3',
                 'max:255',
-                'unique:labels,name,' . $this->url,
+                "unique:labels,name,{$id}",
             ],
             'url' => [
-                'unique:labels,url,'. $this->url
+                "unique:labels,url,{$id}"
             ],
             'logo' =>[
                 'nullable',
                 'image',
-                'max:2048'
+                'max:2048',
             ],
         ];
     }

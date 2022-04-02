@@ -272,6 +272,11 @@ return [
             'url'   => 'admin/labels',
             'icon'  => 'fas fa-record-vinyl',
         ],
+        [
+            'text'  => 'Usuários',
+            'url'   => 'admin/users',
+            'icon'  => 'fas fa-user',
+        ],
         // [
         //     'text'  => 'Features',
         //     'url'   => 'admin/features',

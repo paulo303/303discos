@@ -6,5 +6,4 @@
     @foreach ($errors->all() as $error)
         {!! $error !!} <br>
     @endforeach
-    {!! session()->get('message_error') !!}
 </div>

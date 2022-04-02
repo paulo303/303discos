@@ -23,12 +23,14 @@ class StoreUpdateStoreRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->store->id ?? '';
+
         return [
             'name' => [
                 'required',
                 'min:3',
                 'max:255',
-                'unique:stores,name,' . $this->id,
+                "unique:stores,name,{$id}",
             ],
             'link' => [
                 'required',
@@ -36,7 +38,7 @@ class StoreUpdateStoreRequest extends FormRequest
             'logo' =>[
                 'nullable',
                 'image',
-                'max:2048'
+                'max:2048',
             ],
         ];
     }
@@ -67,7 +69,7 @@ class StoreUpdateStoreRequest extends FormRequest
     {
         return [
             'name'  => 'Nome',
-            'link'   => 'Link',
+            'link'  => 'Link',
             'logo'  => 'Logo',
         ];
     }

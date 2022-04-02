@@ -70,7 +70,7 @@ class LabelController extends Controller
             DB::commit();
 
             $message = "Selo <b>{$label->name}</b> cadastrado com sucesso!";
-            return redirect()->route('labels.index')->with('message_success', $message);
+            return redirect()->route('labels.index')->with('success', $message);
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -87,7 +87,7 @@ class LabelController extends Controller
     public function show($url)
     {
         if (!$label = $this->model->findByURL($url))
-            return redirect()->back()->with('message_error', 'O selo não foi encontrado!');
+            return redirect()->back()->withErrors('O Selo não foi encontrado!');
 
         return view('admin.pages.labels.show', [
             'title' => $label->name,
@@ -104,7 +104,7 @@ class LabelController extends Controller
     public function edit($url)
     {
         if (!$label = $this->model->findByURL($url))
-            return redirect()->back()->with('message_warning', 'O selo não foi encontrado!');
+            return redirect()->back()->withErrors('O Selo não foi encontrado!');
 
         return view('admin.pages.labels.edit', [
             'title' => "Editando {$label->name}",
@@ -119,10 +119,10 @@ class LabelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $url)
+    public function update(StoreUpdateLabelRequest $request, Label $label)
     {
-        if (!$label = $this->model->findByURL($url))
-            return redirect()->back()->with('message_error', 'O selo não foi encontrado!');
+        if (!$label = $this->model->findByURL($label->url))
+            return redirect()->back()->withErrors('O Selo não foi encontrado!');
 
         DB::beginTransaction();
         try {
@@ -138,7 +138,7 @@ class LabelController extends Controller
             DB::commit();
 
             $message = "Selo <b>{$label->name}</b> editado com sucesso!";
-            return redirect()->route('labels.index')->with('message_success', $message);
+            return redirect()->route('labels.index')->with('success', $message);
 
         } catch (\Throwable $th) {
             DB::rollBack();

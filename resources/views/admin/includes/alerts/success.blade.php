@@ -3,5 +3,5 @@
     <h5>
         <i class="icon fas fa-check"></i> Sucesso!
     </h5>
-    {!! session()->get('message_success') !!}
+    {!! session()->get('success') !!}
 </div>

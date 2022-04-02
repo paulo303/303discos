@@ -11,7 +11,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Selos</li>
+                    <li class="breadcrumb-item active">Usuários</li>
                 </ol>
             </div>
         </div>
@@ -23,12 +23,12 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                    <a href="{{ route('labels.create') }}" class="btn btn-success">
-                        <i class="fa fa-plus"></i> Novo Selo
+                    <a href="{{ route('users.create') }}" class="btn btn-success">
+                        <i class="fa fa-plus"></i> Novo Usuário
                     </a>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6  right text-right">
-                    <form action="{{ route('labels.index') }}" method="get" class="form-inline" style="display: block;">
+                    <form action="{{ route('users.index') }}" method="get" class="form-inline" style="display: block;">
                         <input type="text" name="search" id="search" placeholder="Nome" class="form-control" value="{{ $filters['search'] ?? '' }}">
                         <button type="submit" class="btn btn-dark">Filtrar</button>
                     </form>
@@ -39,33 +39,26 @@
             <table class="table table-condensed">
                 <thead>
                     <tr>
-                        <th width="200px"></th>
                         <th width="">Nome</th>
-                        <th width="">Discogs</th>
+                        <th width="">E-mail</th>
+                        <th width="">Tipo de usuário</th>
                         <th class="text-center" width="200"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($labels as $label)
+                    @forelse ($users as $user)
                         <tr>
                             <td style="vertical-align: middle;">
-                                @if ($label->logo)
-                                    <a href="{{ url("{$label->logo}") }}" target="_blank">
-                                        <img src="{{ url("{$label->logo}") }}" alt="{{ $label->name }}" width="100">
-                                    </a>
-                                @else
-                                    <img src="{{ url("images/no-image.jpg") }}" alt="{{ $label->name }}" width="100">
-                                @endif
+                                {{ $user->name }}
                             </td>
                             <td style="vertical-align: middle;">
-                                {{ $label->name }}
+                                {{ $user->email }}
                             </td>
                             <td style="vertical-align: middle;">
-                                <a href="{{ $label->discogs }}" target="_blank">{{ $label->discogs }}</a>
+                                {{ $user->userType->name }}
                             </td>
                             <td style="vertical-align: middle;" class="text-center">
-                                <a href="{{ route('labels.edit', $label->url) }}" class="btn btn-outline-info">Editar</a>
-                                <a href="{{ route('labels.show', $label) }}" class="btn btn-outline-warning">Ver releases</a>
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-outline-info">Editar</a>
                             </td>
                         </tr>
                     @empty
@@ -78,9 +71,9 @@
         </div>
         <div class="card-footer">
             @if (isset($filters))
-                {{ $labels->appends($filters)->links() }}
+                {{ $users->appends($filters)->links() }}
             @else
-                {{ $labels->links() }}
+                {{ $users->links() }}
             @endif
 
         </div>

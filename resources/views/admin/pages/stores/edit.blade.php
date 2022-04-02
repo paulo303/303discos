@@ -11,7 +11,7 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('stores.index') }}">Selos</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('stores.index') }}">Lojas</a></li>
                     <li class="breadcrumb-item active">Editar Loja</li>
                 </ol>
             </div>
@@ -20,7 +20,7 @@
 @stop
 
 @section('content')
-    <form action="{{ route('stores.update', $store->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('stores.update', $store) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         @include('admin.pages.stores._partials.form')

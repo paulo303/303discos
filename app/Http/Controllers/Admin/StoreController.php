@@ -52,7 +52,7 @@ class StoreController extends Controller
             DB::commit();
 
             $message = "Loja <b>{$store->name}</b> cadastrada com sucesso!";
-            return redirect()->route('stores.index')->with('message_success', $message);
+            return redirect()->route('stores.index')->with('success', $message);
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -68,7 +68,7 @@ class StoreController extends Controller
     public function edit($id)
     {
         if (!$store = $this->model->find($id))
-            return redirect()->back()->with('message_warning', 'A loja não foi encontrada!');
+            return redirect()->back()->withErrors('A Loja não foi encontrada!');
 
         return view('admin.pages.stores.edit', [
             'title' => $store->name,
@@ -76,10 +76,10 @@ class StoreController extends Controller
         ]);
     }
 
-    public function update(StoreUpdateStoreRequest $request, $id)
+    public function update(StoreUpdateStoreRequest $request, Store $store)
     {
-        if (!$store = $this->model->find($id))
-            return redirect()->back()->with('message_error', 'A loja não foi encontrada!');
+        if (!$store)
+            return redirect()->back()->withErrors('A Loja não foi encontrada!');
 
         DB::beginTransaction();
         try {
@@ -98,7 +98,7 @@ class StoreController extends Controller
             DB::commit();
 
             $message = "Loja <b>{$store->name}</b> editada com sucesso!";
-            return redirect()->route('stores.index')->with('message_success', $message);
+            return redirect()->route('stores.index')->with('success', $message);
 
         } catch (\Throwable $th) {
             DB::rollBack();
