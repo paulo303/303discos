@@ -5,62 +5,100 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\UserType;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreUpdateUserRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $users = User::all();
+    protected User $user;
 
-        return response()->json($users);
+    public function __construct(User $user)
+    {
+        $this->user = $user;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function index(Request $request)
     {
-
+        return view('admin.pages.users.index', [
+            'title' => 'Usuários',
+            'users' => $this->user->getAll($request->search),
+            'filters' => $request->all(),
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
+    public function create()
+    {
+        return view('admin.pages.users.create', [
+            'title' => 'Criar novo Usuário',
+            'userTypes' => UserType::all(),
+        ]);
+    }
+
+    public function store(StoreUpdateUserRequest $request)
+    {
+        DB::beginTransaction();
+        try {
+            $data = $request->all();
+
+            if ($request->password)
+                $data['password'] = bcrypt($request->password);
+
+            $user = $this->user->create($data);
+            DB::commit();
+
+            $message = "Usuário <b>{$user->name}</b> cadastrado com sucesso!";
+            return redirect()->route('users.index')->with('success', $message);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
+    }
+
+    public function show($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, User $user)
+    public function edit($id)
     {
-        //
+        if (!$user = $this->user->find($id))
+            return redirect()->back()->withErrors('O usuário não foi encontrado!');
+
+        return view('admin.pages.users.edit', [
+            'title' => $user->name,
+            'user' => $user,
+            'userTypes' => UserType::all(),
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
+    public function update(StoreUpdateUserRequest $request, User $user)
+    {
+        if (!$user)
+            return redirect()->back()->withErrors('O usuário não foi encontrado!');
+
+        DB::beginTransaction();
+        try {
+            $data = $request->except('password');
+
+            if ($request->password)
+                $data['password'] = bcrypt($request->password);
+
+            $user->update($data);
+            DB::commit();
+
+            $message = "Usuário <b>{$user->name}</b> editado com sucesso!";
+            return redirect()->route('users.index')->with('success', $message);
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
+    }
+
+    public function destroy($id)
     {
         //
     }

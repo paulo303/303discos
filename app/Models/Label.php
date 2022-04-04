@@ -31,6 +31,7 @@ class Label extends Model
                 $query->where('name', 'LIKE', "%{$search}%");
             }
         })
+        ->with('releases')
         ->orderBy('name', 'asc')
         ->paginate(10);
 

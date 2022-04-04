@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Label;
 use Illuminate\Database\Seeder;
-use App\Helpers;
 
 class LabelSeeder extends Seeder
 {
@@ -220,11 +219,11 @@ class LabelSeeder extends Seeder
             'discogs' => 'https://www.discogs.com/label/2598-Hydraulix',
         ]);
 
-        Label::create([
-            'name' => 'Hydraulix VA',
-            'logo' => 'images/labels/hydraulix-va.jpg',
-            'discogs' => 'https://www.discogs.com/label/2598-Hydraulix',
-        ]);
+        // Label::create([
+        //     'name' => 'Hydraulix VA',
+        //     'logo' => 'images/labels/hydraulix-va.jpg',
+        //     'discogs' => 'https://www.discogs.com/label/2598-Hydraulix',
+        // ]);
 
         Label::create([
             'name' => 'Impacted Chaos',
@@ -378,7 +377,7 @@ class LabelSeeder extends Seeder
 
         Label::create([
             'name' => 'Ripe Analogue Waveforms (RAW)',
-            'logo' => 'images/labels/raw.jpg',
+            'logo' => 'images/labels/ripe-analogue-waveforms-raw.jpg',
             'discogs' => 'https://www.discogs.com/label/1862-Ripe-Analogue-Waveforms-RAW',
         ]);
 

@@ -8,7 +8,7 @@ use App\Helpers;
 class LabelObserver
 {
     /**
-     * Handle the Label "created" event.
+     * Handle the Label "creating" event.
      *
      * @param  \App\Models\Label  $label
      * @return void
@@ -19,7 +19,7 @@ class LabelObserver
     }
 
     /**
-     * Handle the Label "updated" event.
+     * Handle the Label "updating" event.
      *
      * @param  \App\Models\Label  $label
      * @return void

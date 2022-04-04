@@ -8,16 +8,15 @@ use App\Models\Label;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
 class LabelController extends Controller
 {
-    private Label $model;
+    private Label $label;
 
     public function __construct(Label $label)
     {
-        $this->model = $label;
+        $this->label = $label;
     }
 
     /**
@@ -27,7 +26,7 @@ class LabelController extends Controller
      */
     public function index(Request $request)
     {
-        $labels = $this->model->getAll($request->search);
+        $labels = $this->label->getAll($request->search);
 
         return view('admin.pages.labels.index', [
             'title' => 'Selos',
@@ -66,11 +65,11 @@ class LabelController extends Controller
                 $data['logo'] = "{$path}/{$upload->getFilename()}";
             }
 
-            $label = $this->model->create($data);
+            // Obersver converte o nome do label para url antes de salvar
+            $label = $this->label->create($data);
             DB::commit();
 
-            $message = "Selo <b>{$label->name}</b> cadastrado com sucesso!";
-            return redirect()->route('labels.index')->with('message_success', $message);
+            return redirect()->route('labels.index')->with('success', "Selo <b>{$label->name}</b> cadastrado com sucesso!");
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -86,8 +85,8 @@ class LabelController extends Controller
      */
     public function show($url)
     {
-        if (!$label = $this->model->findByURL($url))
-            return redirect()->back()->with('message_error', 'O selo não foi encontrado!');
+        if (!$label = $this->label->findByURL($url))
+            return redirect()->back()->withErrors('O selo não foi encontrado!');
 
         return view('admin.pages.labels.show', [
             'title' => $label->name,
@@ -103,8 +102,8 @@ class LabelController extends Controller
      */
     public function edit($url)
     {
-        if (!$label = $this->model->findByURL($url))
-            return redirect()->back()->with('message_warning', 'O selo não foi encontrado!');
+        if (!$label = $this->label->findByURL($url))
+            return redirect()->back()->withErrors('O selo não foi encontrado!');
 
         return view('admin.pages.labels.edit', [
             'title' => "Editando {$label->name}",
@@ -119,10 +118,10 @@ class LabelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $url)
+    public function update(StoreUpdateLabelRequest $request, Label $label)
     {
-        if (!$label = $this->model->findByURL($url))
-            return redirect()->back()->with('message_error', 'O selo não foi encontrado!');
+        if (!$label = $this->label->findByURL($label->url))
+            return redirect()->back()->withErrors('O selo não foi encontrado!');
 
         DB::beginTransaction();
         try {
@@ -134,11 +133,11 @@ class LabelController extends Controller
                 $data['logo'] = $request->logo->move(public_path('images/labels'), Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
             }
 
+            // Obersver converte o nome do label para url antes de salvar
             $label->update($data);
             DB::commit();
 
-            $message = "Selo <b>{$label->name}</b> editado com sucesso!";
-            return redirect()->route('labels.index')->with('message_success', $message);
+            return redirect()->route('labels.index')->with('success', "Selo <b>{$label->name}</b> editado com sucesso!");
 
         } catch (\Throwable $th) {
             DB::rollBack();

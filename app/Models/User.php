@@ -53,4 +53,20 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    /*** REGRAS DE NEGÓCIO ***/
+    public function getAll(string|null $search = '')
+    {
+        $users = $this->where(function ($query) use ($search){
+            if ($search) {
+                $query->where('name', 'LIKE', "%{$search}%");
+                $query->Orwhere('email', 'LIKE', "%{$search}%");
+            }
+        })
+        ->with(['userType'])
+        ->orderBy('name', 'asc')
+        ->paginate(10);
+
+        return $users;
+    }
 }
