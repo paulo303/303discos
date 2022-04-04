@@ -2,7 +2,7 @@
     <div class="card-body">
         <div class="form-group">
             <label for="name">Nome</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Nome completo do Usuário" value="{{ $user->name ?? old('name') }}">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Nome completo" value="{{ $user->name ?? old('name') }}">
             @if ($errors->has('name'))
                 <div class="error">{!! $errors->first('name') !!}</div>
             @endif
@@ -21,7 +21,7 @@
                 <div class="error">{!! $errors->first('password') !!}</div>
             @endif
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label for="user_type_id">Tipo de usuário</label>
             <select name="user_type_id" id="user_type_id" class="form-control">
                 @foreach ($userTypes as $userType)
@@ -31,7 +31,7 @@
             @if ($errors->has('user_type_id'))
                 <div class="error">{!! $errors->first('user_type_id') !!}</div>
             @endif
-        </div>
+        </div> --}}
     </div>
     <div class="card-footer">
         <button type="submit" class="btn btn-success">

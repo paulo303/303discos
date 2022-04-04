@@ -7,21 +7,23 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\UserType;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreUpdateUserRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    protected User $model;
+    protected User $user;
 
     public function __construct(User $user)
     {
-        $this->model = $user;
+        $this->user = $user;
     }
 
     public function index(Request $request)
     {
         return view('admin.pages.users.index', [
             'title' => 'Usuários',
-            'users' => $this->model->getAll($request->search),
+            'users' => $this->user->getAll($request->search),
             'filters' => $request->all(),
         ]);
     }
@@ -34,16 +36,20 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreUpdateUserRequest $request)
     {
-        dd($request);
         DB::beginTransaction();
         try {
-            $user = $this->model->create($request->all());
+            $data = $request->all();
+
+            if ($request->password)
+                $data['password'] = bcrypt($request->password);
+
+            $user = $this->user->create($data);
             DB::commit();
 
             $message = "Usuário <b>{$user->name}</b> cadastrado com sucesso!";
-            return redirect()->route('users.index')->with('message_success', $message);
+            return redirect()->route('users.index')->with('success', $message);
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -58,8 +64,8 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        if (!$user = $this->model->find($id))
-            return redirect()->back()->with('message_warning', 'O usuário não foi encontrada!');
+        if (!$user = $this->user->find($id))
+            return redirect()->back()->withErrors('O usuário não foi encontrado!');
 
         return view('admin.pages.users.edit', [
             'title' => $user->name,
@@ -68,24 +74,23 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(StoreUpdateUserRequest $request, User $user)
     {
-        if (!$user = $this->model->find($id))
-            return redirect()->back()->with('message_error', 'O usuário não foi encontrada!');
+        if (!$user)
+            return redirect()->back()->withErrors('O usuário não foi encontrado!');
 
         DB::beginTransaction();
         try {
             $data = $request->except('password');
 
-            if ($request->password) {
+            if ($request->password)
                 $data['password'] = bcrypt($request->password);
-            }
 
-            $user->update($request->all());
+            $user->update($data);
             DB::commit();
 
-            $message = "Loja <b>{$user->name}</b> editada com sucesso!";
-            return redirect()->route('users.index')->with('message_success', $message);
+            $message = "Usuário <b>{$user->name}</b> editado com sucesso!";
+            return redirect()->route('users.index')->with('success', $message);
 
         } catch (\Throwable $th) {
             DB::rollBack();

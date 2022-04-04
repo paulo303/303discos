@@ -231,14 +231,14 @@ return [
         //     'text'         => 'search',
         //     'topnav_right' => true,
         // ],
-        [
-            'type'         => 'fullscreen-widget',
-            'topnav_right' => true,
-        ],
         // [
-        //     'type'         => 'darkmode-widget',
+        //     'type'         => 'fullscreen-widget',
         //     'topnav_right' => true,
         // ],
+        [
+            'type'         => 'darkmode-widget',
+            'topnav_right' => true,
+        ],
         // [
         //     'text' => 'Language',
         //     'topnav_right' => true,
@@ -258,10 +258,10 @@ return [
         // ],
 
         // Sidebar items:
-        [
-            'type' => 'sidebar-menu-search',
-            'text' => 'Busca',
-        ],
+        // [
+        //     'type' => 'sidebar-menu-search',
+        //     'text' => 'Busca',
+        // ],
         [
             'text'  => 'Lojas',
             'url'   => 'admin/stores',

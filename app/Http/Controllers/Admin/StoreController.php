@@ -12,18 +12,18 @@ use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
 {
-    protected Store $model;
+    protected Store $store;
 
     public function __construct(Store $store)
     {
-        $this->model = $store;
+        $this->store = $store;
     }
 
     public function index(Request $request)
     {
         return view('admin.pages.stores.index', [
             'title' => 'Lojas',
-            'stores' => $this->model->getAll($request->search),
+            'stores' => $this->store->getAll($request->search),
             'filters' => $request->all(),
         ]);
     }
@@ -48,11 +48,10 @@ class StoreController extends Controller
                 $data['logo'] = "{$path}/{$upload->getFilename()}";
             }
 
-            $store = $this->model->create($data);
+            $store = $this->store->create($data);
             DB::commit();
 
-            $message = "Loja <b>{$store->name}</b> cadastrada com sucesso!";
-            return redirect()->route('stores.index')->with('success', $message);
+            return redirect()->route('stores.index')->with('success', "Loja <b>{$store->name}</b> cadastrada com sucesso!");
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -67,8 +66,8 @@ class StoreController extends Controller
 
     public function edit($id)
     {
-        if (!$store = $this->model->find($id))
-            return redirect()->back()->withErrors('A Loja não foi encontrada!');
+        if (!$store = $this->store->find($id))
+            return redirect()->back()->withErrors('A loja não foi encontrada!');
 
         return view('admin.pages.stores.edit', [
             'title' => $store->name,
@@ -79,7 +78,7 @@ class StoreController extends Controller
     public function update(StoreUpdateStoreRequest $request, Store $store)
     {
         if (!$store)
-            return redirect()->back()->withErrors('A Loja não foi encontrada!');
+            return redirect()->back()->withErrors('A loja não foi encontrada!');
 
         DB::beginTransaction();
         try {
@@ -97,8 +96,7 @@ class StoreController extends Controller
             $store->update($data);
             DB::commit();
 
-            $message = "Loja <b>{$store->name}</b> editada com sucesso!";
-            return redirect()->route('stores.index')->with('success', $message);
+            return redirect()->route('stores.index')->with('success', "Loja <b>{$store->name}</b> editada com sucesso!");
 
         } catch (\Throwable $th) {
             DB::rollBack();

@@ -22,7 +22,7 @@ class StoreSeeder extends Seeder
         ]);
 
         Store::create([
-            'name' => 'Biri - Discogs',
+            'name' => 'Biri',
             'link' => 'https://www.discogs.com/seller/Victo/profile',
             'logo' => 'images/stores/biri-discogs.png',
         ]);
