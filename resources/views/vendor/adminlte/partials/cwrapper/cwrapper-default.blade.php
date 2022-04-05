@@ -11,13 +11,12 @@
 
     {{-- Content Header --}}
     @hasSection('content_header')
+        <div class="text-center" style="background-color: #454d55">
+            <a href="{{ route('dashboard') }}">
+                <img src="{{ url('images/logo.png') }}" width="250px" alt="">
+            </a>
+        </div>
         <div class="content-header">
-            <div class="text-center">
-                <a href="{{ route('dashboard') }}">
-                    <img src="{{ url('images/logo.png') }}" width="250px" alt="">
-                </a>
-            </div>
-
             <div class="{{ config('adminlte.classes_content_header') ?: $def_container_class }}">
                 @yield('content_header')
             </div>

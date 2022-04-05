@@ -16,7 +16,7 @@ class CreateReleasesTable extends Migration
         Schema::create('releases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('label_id')->constrained();
-            $table->integer('release_num');
+            $table->string('release_num');
             $table->string('cat_num', 20)->unique();
             $table->string('image', 100)->nullable();
             $table->timestamps();
