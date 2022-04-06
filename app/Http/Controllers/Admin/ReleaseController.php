@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateReleaseRequest;
 use App\Models\Label;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ReleaseController extends Controller
 {
@@ -92,6 +93,24 @@ class ReleaseController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($catNum)
+    {
+        if (!$release = $this->model->findByCatNum($catNum))
+            return redirect()->back()->withErrors('O release não foi encontrado!');
+
+        return view('admin.pages.releases.edit', [
+            'title' => "Editando {$release->cat_num}",
+            'release' => $release,
+            'selos' => Label::all(),
+        ]);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -100,7 +119,32 @@ class ReleaseController extends Controller
      */
     public function update(Request $request, Release $release)
     {
-        //
+        if (!$release)
+            return redirect()->back()->withErrors('O release não foi encontrado!');
+
+        DB::beginTransaction();
+        try {
+            $data = $request->all();
+            if ($request->image){
+                if ($release->image && Storage::exists($release->image))
+                    Storage::delete($release->image);
+
+                $label = $this->label->findById($request->label_id);
+                $path = "images/releases/{$label->name}";
+                $upload = $request->image->move(public_path($path), $request->cat_num . "." . $request->image->getClientOriginalExtension());
+                $data['image'] = "{$path}/{$upload->getFilename()}";
+            }
+
+            // Obersver converte o nome do label para url antes de salvar
+            $release->update($data);
+            DB::commit();
+
+            return redirect()->route('releases.index')->with('success', "<b>{$release->cat_num}</b> editado com sucesso!");
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
     }
 
     /**

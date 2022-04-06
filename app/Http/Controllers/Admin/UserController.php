@@ -89,7 +89,7 @@ class UserController extends Controller
             $user->update($data);
             DB::commit();
 
-            $message = "Usuário <b>{$user->name}</b> editado com sucesso!";
+            $message = "<b>{$user->name}</b> editado com sucesso!";
             return redirect()->route('users.index')->with('success', $message);
 
         } catch (\Throwable $th) {

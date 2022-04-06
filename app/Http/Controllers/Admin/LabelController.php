@@ -69,7 +69,7 @@ class LabelController extends Controller
             $label = $this->model->create($data);
             DB::commit();
 
-            return redirect()->route('labels.index')->with('success', "Selo <b>{$label->name}</b> cadastrado com sucesso!");
+            return redirect()->route('labels.index')->with('success', "<b>{$label->name}</b> cadastrado com sucesso!");
 
         } catch (\Throwable $th) {
             DB::rollBack();

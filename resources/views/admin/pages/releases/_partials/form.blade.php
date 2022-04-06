@@ -4,7 +4,12 @@
             <label for="name">Selo</label>
             <select name="label_id" id="label_id" class="form-control">
                 @foreach ($selos as $selo)
-                    <option value="{{ $selo->id }}">{{ $selo->name }}</option>
+                    <option value="{{ $selo->id }}"
+                        @if(isset($release) && $selo->id == $release->label_id)
+                            selected
+                        @endif>
+                        {{ $selo->name }}
+                    </option>
                 @endforeach
             </select>
             @if ($errors->has('label'))
@@ -15,7 +20,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="release_num">Release Number</label>
-                    <input type="text" class="form-control" id="release_num" name="release_num" placeholder="Release Number" value="{{ $label->release_num ?? old('release_num') }}">
+                    <input type="text" class="form-control" id="release_num" name="release_num" placeholder="Release Number" value="{{ $release->release_num ?? old('release_num') }}">
                     @if ($errors->has('release_num'))
                         <div class="error">{!! $errors->first('release_num') !!}</div>
                     @endif
@@ -24,7 +29,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="cat_num">Cat Number</label>
-                    <input type="text" class="form-control" id="cat_num" name="cat_num" placeholder="Cat Number" value="{{ $label->cat_num ?? old('cat_num') }}">
+                    <input type="text" class="form-control" id="cat_num" name="cat_num" placeholder="Cat Number" value="{{ $release->cat_num ?? old('cat_num') }}">
                     @if ($errors->has('cat_num'))
                         <div class="error">{!! $errors->first('cat_num') !!}</div>
                     @endif

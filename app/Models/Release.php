@@ -69,7 +69,16 @@ class Release extends Model
         return $release;
     }
 
+    public function findByCatNum($catNum)
+    {
+        $release = $this->where('cat_num', $catNum)->first();
 
+        $release->load([
+            'label',
+        ]);
+
+        return $release;
+    }
 
     public function rules()
     {
