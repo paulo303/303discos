@@ -16,14 +16,14 @@ class StoreController extends Controller
 
     public function __construct(Store $store)
     {
-        $this->store = $store;
+        $this->model = $store;
     }
 
     public function index(Request $request)
     {
         return view('admin.pages.stores.index', [
             'title' => 'Lojas',
-            'stores' => $this->store->getAll($request->search),
+            'stores' => $this->model->getPaginate($request->search),
             'filters' => $request->all(),
         ]);
     }
@@ -48,7 +48,7 @@ class StoreController extends Controller
                 $data['logo'] = "{$path}/{$upload->getFilename()}";
             }
 
-            $store = $this->store->create($data);
+            $store = $this->model->create($data);
             DB::commit();
 
             return redirect()->route('stores.index')->with('success', "Loja <b>{$store->name}</b> cadastrada com sucesso!");
@@ -66,7 +66,7 @@ class StoreController extends Controller
 
     public function edit($id)
     {
-        if (!$store = $this->store->find($id))
+        if (!$store = $this->model->find($id))
             return redirect()->back()->withErrors('A loja não foi encontrada!');
 
         return view('admin.pages.stores.edit', [

@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             LabelSeeder::class,
             StoreSeeder::class,
+            OrderStatusSeeder::class,
+            PackageStatusSeeder::class,
         ]);
     }
 }

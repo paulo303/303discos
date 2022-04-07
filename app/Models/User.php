@@ -55,7 +55,7 @@ class User extends Authenticatable
     }
 
     /*** REGRAS DE NEGÓCIO ***/
-    public function getAll(string|null $search = '')
+    public function getPaginate(string|null $search = '')
     {
         $users = $this->where(function ($query) use ($search){
             if ($search) {
@@ -63,10 +63,24 @@ class User extends Authenticatable
                 $query->Orwhere('email', 'LIKE', "%{$search}%");
             }
         })
-        ->with(['userType'])
         ->orderBy('name', 'asc')
         ->paginate(10);
 
+        $users->load([
+            'userType',
+        ]);
+
         return $users;
+    }
+
+    public function findById($id)
+    {
+        $user = $this->find($id);
+
+        $user->load([
+            'userType',
+        ]);
+
+        return $user;
     }
 }
