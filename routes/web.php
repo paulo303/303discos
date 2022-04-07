@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\{
     UserController,
     LabelController,
     StoreController,
+    ReleaseController,
 };
 
 /*
@@ -31,7 +32,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('users', UserController::class);
         Route::resource('labels', LabelController::class);
         Route::resource('stores', StoreController::class);
-        // Route::resource('releases', ReleaseController::class);
+        Route::resource('releases', ReleaseController::class);
         // Route::resource('orders', OrderController::class);
     });
 

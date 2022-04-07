@@ -24,18 +24,44 @@ class Label extends Model
     }
 
     /*** REGRAS DE NEGÓCIO ***/
-    public function getAll(string|null $search = '')
+    public function getPaginate(string|null $search = '')
     {
         $labels = $this->where(function ($query) use ($search){
             if ($search) {
                 $query->where('name', 'LIKE', "%{$search}%");
             }
         })
-        ->with('releases')
         ->orderBy('name', 'asc')
         ->paginate(10);
 
+        $labels->load([
+            'releases',
+        ]);
+
         return $labels;
+    }
+
+    /*** REGRAS DE NEGÓCIO ***/
+    public function getAll()
+    {
+        $labels = Label::orderBy('name', 'asc')->get();
+
+        $labels->load([
+            'releases',
+        ]);
+
+        return $labels;
+    }
+
+    public function findById($id)
+    {
+        $label = $this->find($id);
+
+        $label->load([
+            'releases',
+        ]);
+
+        return $label;
     }
 
     public function findByURL($url)

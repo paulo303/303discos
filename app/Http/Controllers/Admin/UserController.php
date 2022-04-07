@@ -16,14 +16,14 @@ class UserController extends Controller
 
     public function __construct(User $user)
     {
-        $this->user = $user;
+        $this->model = $user;
     }
 
     public function index(Request $request)
     {
         return view('admin.pages.users.index', [
             'title' => 'Usuários',
-            'users' => $this->user->getAll($request->search),
+            'users' => $this->model->getPaginate($request->search),
             'filters' => $request->all(),
         ]);
     }
@@ -45,7 +45,7 @@ class UserController extends Controller
             if ($request->password)
                 $data['password'] = bcrypt($request->password);
 
-            $user = $this->user->create($data);
+            $user = $this->model->create($data);
             DB::commit();
 
             $message = "Usuário <b>{$user->name}</b> cadastrado com sucesso!";
@@ -64,7 +64,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        if (!$user = $this->user->find($id))
+        if (!$user = $this->model->findById($id))
             return redirect()->back()->withErrors('O usuário não foi encontrado!');
 
         return view('admin.pages.users.edit', [
@@ -89,7 +89,7 @@ class UserController extends Controller
             $user->update($data);
             DB::commit();
 
-            $message = "Usuário <b>{$user->name}</b> editado com sucesso!";
+            $message = "<b>{$user->name}</b> editado com sucesso!";
             return redirect()->route('users.index')->with('success', $message);
 
         } catch (\Throwable $th) {

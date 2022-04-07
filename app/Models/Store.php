@@ -17,7 +17,7 @@ class Store extends Model
     ];
 
     /*** REGRAS DE NEGÓCIO ***/
-    public function getAll(string|null $search = '')
+    public function getPaginate(string|null $search = '')
     {
         $stores = $this->where(function ($query) use ($search){
             if ($search) {

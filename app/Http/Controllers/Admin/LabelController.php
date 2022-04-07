@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Storage;
 
 class LabelController extends Controller
 {
-    private Label $label;
+    private Label $model;
 
     public function __construct(Label $label)
     {
-        $this->label = $label;
+        $this->model = $label;
     }
 
     /**
@@ -26,7 +26,7 @@ class LabelController extends Controller
      */
     public function index(Request $request)
     {
-        $labels = $this->label->getAll($request->search);
+        $labels = $this->model->getPaginate($request->search);
 
         return view('admin.pages.labels.index', [
             'title' => 'Selos',
@@ -58,18 +58,18 @@ class LabelController extends Controller
         DB::beginTransaction();
         try {
             $data = $request->all();
-            $path = 'images/labels';
 
             if ($request->logo) {
+                $path = 'images/labels';
                 $upload = $request->logo->move(public_path($path), Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
                 $data['logo'] = "{$path}/{$upload->getFilename()}";
             }
 
             // Obersver converte o nome do label para url antes de salvar
-            $label = $this->label->create($data);
+            $label = $this->model->create($data);
             DB::commit();
 
-            return redirect()->route('labels.index')->with('success', "Selo <b>{$label->name}</b> cadastrado com sucesso!");
+            return redirect()->route('labels.index')->with('success', "<b>{$label->name}</b> cadastrado com sucesso!");
 
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -85,7 +85,7 @@ class LabelController extends Controller
      */
     public function show($url)
     {
-        if (!$label = $this->label->findByURL($url))
+        if (!$label = $this->model->findByURL($url))
             return redirect()->back()->withErrors('O selo não foi encontrado!');
 
         return view('admin.pages.labels.show', [
@@ -102,7 +102,7 @@ class LabelController extends Controller
      */
     public function edit($url)
     {
-        if (!$label = $this->label->findByURL($url))
+        if (!$label = $this->model->findByURL($url))
             return redirect()->back()->withErrors('O selo não foi encontrado!');
 
         return view('admin.pages.labels.edit', [
@@ -120,7 +120,7 @@ class LabelController extends Controller
      */
     public function update(StoreUpdateLabelRequest $request, Label $label)
     {
-        if (!$label = $this->label->findByURL($label->url))
+        if (!$label = $this->model->findByURL($label->url))
             return redirect()->back()->withErrors('O selo não foi encontrado!');
 
         DB::beginTransaction();
@@ -130,7 +130,8 @@ class LabelController extends Controller
                 if ($label->image && Storage::exists($label->image))
                     Storage::delete($label->image);
 
-                $data['logo'] = $request->logo->move(public_path('images/labels'), Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
+                $path = 'images/labels';
+                $data['logo'] = $request->logo->move(public_path($path), Helpers::convertToUrl($request->name) . "." . $request->logo->getClientOriginalExtension());
             }
 
             // Obersver converte o nome do label para url antes de salvar

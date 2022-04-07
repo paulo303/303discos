@@ -5,11 +5,8 @@
 @section('content_header')
     <div class="container-fluid">
         <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1 class="m-0">{{ $title }}</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
+            <div class="col-sm-12">
+                <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
                     <li class="breadcrumb-item active">Lojas</li>
                 </ol>
@@ -42,7 +39,7 @@
                         <th width="200px"></th>
                         <th width="">Nome</th>
                         <th width="">Link</th>
-                        <th class="text-center" width="200"></th>
+                        <th class="text-center" width="200">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,7 +66,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" align="center">Nenhum resultado encontrado</td>
+                            <td colspan="4" align="center">Nenhum resultado encontrado</td>
                         </tr>
                     @endforelse
                 </tbody>

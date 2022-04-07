@@ -273,6 +273,11 @@ return [
             'icon'  => 'fas fa-record-vinyl',
         ],
         [
+            'text'  => 'Releases',
+            'url'   => 'admin/releases',
+            'icon'  => 'fas fa-record-vinyl',
+        ],
+        [
             'text'  => 'Usuários',
             'url'   => 'admin/users',
             'icon'  => 'fas fa-user',
