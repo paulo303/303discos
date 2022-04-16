@@ -17,6 +17,8 @@ class CreatePackageDetailsTable extends Migration
             $table->id();
             $table->foreignId('package_id')->constrained();
             $table->foreignId('order_id')->constrained();
+            $table->foreignId('package_status_id')->constrained('packages_status');
+            $table->decimal('aditional_value');
             $table->timestamps();
         });
     }

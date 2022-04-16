@@ -14,8 +14,8 @@ class UserTypeSeeder extends Seeder
      */
     public function run()
     {
-        UserType::create(['type' => 'Administrador']);
-        UserType::create(['type' => 'Gerenciador']);
-        UserType::create(['type' => 'Usuário']);
+        UserType::create(['name' => 'Administrador']);
+        UserType::create(['name' => 'Gerenciador']);
+        UserType::create(['name' => 'Usuário']);
     }
 }
