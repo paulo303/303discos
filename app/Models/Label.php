@@ -41,7 +41,6 @@ class Label extends Model
         return $labels;
     }
 
-    /*** REGRAS DE NEGÓCIO ***/
     public function getAll()
     {
         $labels = Label::orderBy('name', 'asc')->get();

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePackageDetailsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreatePackageDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('packages_details', function (Blueprint $table) {
+        Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('package_id')->constrained();
             $table->foreignId('order_id')->constrained();
-            $table->foreignId('package_status_id')->constrained('packages_status');
-            $table->decimal('aditional_value');
+            $table->foreignId('release_id')->constrained();
+            $table->decimal('price');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreatePackageDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('packages_details');
+        Schema::dropIfExists('order_items');
     }
-}
+};
