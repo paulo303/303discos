@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\{
     LabelController,
     StoreController,
     ReleaseController,
+    OrderController,
 };
 
 /*
@@ -33,7 +34,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('labels', LabelController::class);
         Route::resource('stores', StoreController::class);
         Route::resource('releases', ReleaseController::class);
-        // Route::resource('orders', OrderController::class);
+        Route::resource('orders', OrderController::class);
     });
 
 });

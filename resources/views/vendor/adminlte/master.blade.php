@@ -73,7 +73,7 @@
 
 </head>
 
-<body class="@yield('classes_body')" @yield('body_data')>
+<body class="@yield('classes_body')" @yield('body_data')  style="background-color: #464C52">
 
     {{-- Body Content --}}
     @yield('body')

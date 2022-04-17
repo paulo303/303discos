@@ -16,13 +16,11 @@
 @section('classes_body'){{ ($auth_type ?? 'login') . '-page' }}@stop
 
 @section('body')
-    <div class="{{ $auth_type ?? 'login' }}-box">
-
+    <div class="{{ $auth_type ?? 'login' }}-box" style="height: 100vh;">
         {{-- Logo --}}
-        <div class="{{ $auth_type ?? 'login' }}-logo">
+        <div class="{{ $auth_type ?? 'login' }}-logo" style="background-color: #464C52; ">
             <a href="{{ $dashboard_url }}">
-                <img src="{{ asset(config('adminlte.logo_img')) }}" height="50">
-                {!! config('adminlte.logo', '<b>Admin</b>LTE') !!}
+                <img src="{{ asset(config('adminlte.logo_img')) }}" width="350">
             </a>
         </div>
 

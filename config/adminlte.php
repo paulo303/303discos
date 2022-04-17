@@ -282,10 +282,15 @@ return [
             'url'   => 'admin/users',
             'icon'  => 'fas fa-user',
         ],
+        [
+            'text'  => 'Pedidos',
+            'url'   => 'admin/orders',
+            'icon'  => 'fas fa-shopping-cart',
+        ],
         // [
-        //     'text'  => 'Features',
-        //     'url'   => 'admin/features',
-        //     'icon'  => 'fas fa-star',
+        //     'text'  => 'Pacotes',
+        //     'url'   => 'admin/packages',
+        //     'icon'  => 'fas fa-box',
         // ],
         // [
         //     'text' => 'blog',
