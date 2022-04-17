@@ -1,5 +1,7 @@
 @extends('adminlte::auth.auth-page', ['auth_type' => 'login'])
 
+@section('title', 'Login')
+
 @section('adminlte_css_pre')
     <link rel="stylesheet" href="{{ asset('vendor/icheck-bootstrap/icheck-bootstrap.min.css') }}">
 @stop
@@ -94,11 +96,11 @@
     @endif
 
     {{-- Register link --}}
-    @if($register_url)
+    {{-- @if($register_url)
         <p class="my-0">
             <a href="{{ $register_url }}">
                 {{ __('adminlte::adminlte.register_a_new_membership') }}
             </a>
         </p>
-    @endif
+    @endif --}}
 @stop
