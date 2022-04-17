@@ -8,8 +8,8 @@
             <div class="col-sm-12">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('labels.index') }}">Selos</a></li>
-                    <li class="breadcrumb-item active">{{ $label->name }}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('releases.index') }}">Releases</a></li>
+                    <li class="breadcrumb-item active">{{ $release->cat_num }}</li>
                 </ol>
             </div>
         </div>
@@ -21,29 +21,22 @@
         <div class="row justify-content-center">
             <div class="col-12 col-md-6 col-md-6 col-lg-6 col-xl-4 text-center">
                 <h1>
-                    {{ $label->name }}
+                    {{ $release->label->name }}
                 </h1>
-                @if ($label->logo)
-                    <p>
-                        <a href="{{ url("{$label->logo}") }}" target="_blank">
-                            <img src="{{ url("{$label->logo}") }}" alt="{{ $label->name }}" width="250">
-                        </a>
-                    </p>
+                <h4>
+                    Release Number: {{ $release->release_num }}
+                </h4>
+                <h4>
+                    Cat Number: {{ $release->cat_num }}
+                </h4>
+                @if ($release->image)
+                    <a href="{{ url("{$release->image}") }}" target="_blank">
+                        <img src="{{ url("{$release->image}") }}" alt="{{ $release->cat_num }}" width="250">
+                    </a>
                 @else
-                    <p>
-                        <img src="{{ url('images/no-image.jpg') }}" alt="{{ $label->name }}" width="250">
-                    </p>
+                    <img src="{{ url("images/no-image.jpg") }}" alt="{{ $release->cat_num }}" width="250">
                 @endif
 
-                <ul class="list-group mb-3">
-                    <li class="list-group-item">
-                        <b>Releases cadastrados</b> <a class="float-right">{{ $label->releases->count() }}</a>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Pedidos feitos</b> <a class="float-right">0</a>
-                    </li>
-                </ul>
-                <a href="{{ route('labels.edit', $label->url) }}" class="btn btn-primary btn-block"><b>Editar</b></a>
             </div>
         </div>
     </div>

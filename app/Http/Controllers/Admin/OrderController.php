@@ -8,14 +8,24 @@ use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
 {
+    protected Order $model;
+
+    public function __construct(Order $model)
+    {
+        $this->model = $model;
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response('Yes', 200);
+        return view('admin.pages.orders.index', [
+            'title' => 'Pedidos',
+            'orders' => $this->model->getPaginate($request),
+        ]);
     }
 
     /**

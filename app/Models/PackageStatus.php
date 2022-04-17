@@ -10,7 +10,7 @@ class PackageStatus extends Model
     use HasFactory;
 
     protected $table = 'packages_status';
-    protected $fillable = ['status'];
+    protected $fillable = ['name'];
 
     public function packages()
     {

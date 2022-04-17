@@ -14,9 +14,10 @@ class PackageStatusSeeder extends Seeder
      */
     public function run()
     {
-        PackageStatus::create(['status' => 'Pacote comprado']);
-        PackageStatus::create(['status' => 'Pacote em transito']);
-        PackageStatus::create(['status' => 'Pacote entregue ao Tiago']);
-        PackageStatus::create(['status' => 'Pacote entregue ao comprador']);
+        PackageStatus::create(['name' => 'Pacote comprado']);
+        PackageStatus::create(['name' => 'Pacote em transito']);
+        PackageStatus::create(['name' => 'Pacote entregue ao Tiago']);
+        PackageStatus::create(['name' => 'Pacote finalizado']);
+        PackageStatus::create(['name' => 'Pacote Cancelado']);
     }
 }

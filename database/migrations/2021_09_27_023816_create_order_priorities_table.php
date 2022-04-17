@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePackageStatusTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreatePackageStatusTable extends Migration
      */
     public function up()
     {
-        Schema::create('packages_status', function (Blueprint $table) {
+        Schema::create('orders_priorities', function (Blueprint $table) {
             $table->id();
-            $table->string('status', 50)->unique();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class CreatePackageStatusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('packages_status');
+        Schema::dropIfExists('order_priorities');
     }
-}
+};

@@ -3,12 +3,12 @@
         <div class="form-group">
             <label for="name">Selo</label>
             <select name="label_id" id="label_id" class="form-control">
-                @foreach ($selos as $selo)
-                    <option value="{{ $selo->id }}"
-                        @if(isset($release) && $selo->id == $release->label_id)
+                @foreach ($labels as $label)
+                    <option value="{{ $label->id }}"
+                        @if(isset($release) && $label->id == $release->label_id)
                             selected
                         @endif>
-                        {{ $selo->name }}
+                        {{ $label->name }}
                     </option>
                 @endforeach
             </select>

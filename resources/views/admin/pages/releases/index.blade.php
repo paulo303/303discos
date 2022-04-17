@@ -66,6 +66,7 @@
                             </td>
                             <td style="vertical-align: middle;" class="text-center">
                                 <a href="{{ route('releases.edit', $release->cat_num) }}" class="btn btn-outline-info">Editar</a>
+                                <a href="{{ route('releases.show', $release->cat_num) }}" class="btn btn-outline-warning">Detalhes</a>
                             </td>
                         </tr>
                     @empty

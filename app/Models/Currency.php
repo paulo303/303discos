@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderStatus extends Model
+class Currency extends Model
 {
     use HasFactory;
 
-    protected $table = 'orders_status';
+    protected $table = 'currencies';
 
     protected $fillable = ['name'];
 
-    public function orders()
+    public function order()
     {
         return $this->hasMany(Order::class);
     }

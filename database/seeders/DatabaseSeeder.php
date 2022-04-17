@@ -20,7 +20,11 @@ class DatabaseSeeder extends Seeder
             LabelSeeder::class,
             StoreSeeder::class,
             OrderStatusSeeder::class,
+            OrderPrioritySeeder::class,
             PackageStatusSeeder::class,
+            CurrencySeeder::class,
+            ReleaseSeeder::class,
+            OrderSeeder::class,
         ]);
     }
 }

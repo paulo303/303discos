@@ -16,6 +16,11 @@ class Store extends Model
         'logo',
     ];
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     /*** REGRAS DE NEGÓCIO ***/
     public function getPaginate(string|null $search = '')
     {

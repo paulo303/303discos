@@ -46,7 +46,7 @@ class ReleaseController extends Controller
     {
         return view('admin.pages.releases.create', [
             'title' => 'Criar novo Release',
-            'selos' => Label::all(),
+            'labels' => $this->label->getAll(),
         ]);
     }
 
@@ -87,9 +87,16 @@ class ReleaseController extends Controller
      * @param  \App\Models\Release  $release
      * @return \Illuminate\Http\Response
      */
-    public function show(Release $release)
+    public function show($catNum)
     {
-        //
+        if (!$release = $this->model->findByCatNum($catNum))
+            return redirect()->back()->withErrors('O release não foi encontrado!');
+
+        return view('admin.pages.releases.show', [
+            'title' => "Editando {$release->cat_num}",
+            'release' => $release,
+            'labels' => $this->label->getAll(),
+        ]);
     }
 
     /**
@@ -106,7 +113,7 @@ class ReleaseController extends Controller
         return view('admin.pages.releases.edit', [
             'title' => "Editando {$release->cat_num}",
             'release' => $release,
-            'selos' => Label::all(),
+            'labels' => $this->label->getAll(),
         ]);
     }
 

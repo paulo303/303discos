@@ -14,9 +14,10 @@ class OrderStatusSeeder extends Seeder
      */
     public function run()
     {
-        OrderStatus::create(['status' => 'Pedido solicitado']);
-        OrderStatus::create(['status' => 'Pedido efetuado']);
-        OrderStatus::create(['status' => 'Pedido entregue']);
-        OrderStatus::create(['status' => 'Pedido cancelado']);
+        OrderStatus::create(['name' => 'Na fila']);
+        OrderStatus::create(['name' => 'Pedido efetuado']);
+        OrderStatus::create(['name' => 'Entregue ao Tiago']);
+        OrderStatus::create(['name' => 'Finalizado']);
+        OrderStatus::create(['name' => 'Cancelado']);
     }
 }
